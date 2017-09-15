@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RTestApp1</string>
+    <string name="page_address_hint">Enter page address</string>
 </resources>
