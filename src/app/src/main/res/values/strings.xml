@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">RTestApp1</string>
     <string name="page_address_hint">Enter page address</string>
+    <string name="error_400">Error: Bad Request</string>
+    <string name="error_401">Error: Unauthorized access</string>
+    <string name="error_403">Error: Forbidden</string>
+    <string name="error_404">Error: Resource not found</string>
+    <string name="error_500">Error: Internal server error</string>
+    <string name="error_502">Error: Bad gateway</string>
+    <string name="error_503">Error: Service unavailable</string>
+    <string name="error_504">Error: Gateway timeout</string>
+    <string name="error_unknown">Error: Unknown Error</string>
 </resources>

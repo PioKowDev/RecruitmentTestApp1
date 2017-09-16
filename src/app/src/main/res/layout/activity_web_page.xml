@@ -19,6 +19,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/loadPageButton"
                 android:layout_marginEnd="8dp"
                 android:hint="@string/page_address_hint" android:singleLine="true"
+                android:nextFocusRight="@id/loadPageButton"
+                android:nextFocusForward="@id/loadPageButton"
                 android:selectAllOnFocus="true"/>
         <ImageButton
                 android:layout_width="wrap_content"
@@ -26,6 +28,8 @@
                 android:id="@+id/loadPageButton" android:layout_marginTop="8dp"
                 app:layout_constraintTop_toTopOf="parent" android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+                android:nextFocusLeft="@id/pageAddressEditText"
+                android:nextFocusForward="@id/pageAddressEditText"
                 app:layout_constraintStart_toEndOf="@+id/pageAddressEditText"
                 android:contentDescription="@null"/>
         <FrameLayout

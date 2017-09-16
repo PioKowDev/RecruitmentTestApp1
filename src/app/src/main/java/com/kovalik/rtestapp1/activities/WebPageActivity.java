@@ -8,6 +8,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.kovalik.rtestapp1.R;
 import com.kovalik.rtestapp1.databinding.ActivityWebPageBinding;
 import com.kovalik.rtestapp1.fragments.WebPageFragment;
+import com.kovalik.rtestapp1.managers.WebPageSourceProvider;
 import io.reactivex.Observable;
 
 public class WebPageActivity extends AppCompatActivity {
@@ -35,6 +36,12 @@ public class WebPageActivity extends AppCompatActivity {
 
         mButtonObservable = RxView.clicks(mViewsBinding.loadPageButton).
             flatMap(click -> Observable.just(mViewsBinding.pageAddressEditText.getText().toString()));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        WebPageSourceProvider.getInstance(getApplicationContext()).cancelAllRequests();
     }
 
     public Observable<String> getLoadPageButtonObservable() {
