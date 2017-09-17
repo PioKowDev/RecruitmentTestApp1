@@ -1,6 +1,7 @@
 package com.kovalik.rtestapp1.activities;
 
 import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ public class WebPageActivity extends AppCompatActivity {
     private static final String WEB_PAGE_FRAGMENT_TAG = "WEB_PAGE_FRAGMENT_TAG";
 
     private ActivityWebPageBinding mViewsBinding;
-    private WebPageFragment mWebPageFragment;
 
     private Observable<String> mButtonObservable;
 
@@ -27,11 +27,11 @@ public class WebPageActivity extends AppCompatActivity {
 
         final FragmentManager fm = getSupportFragmentManager();
 
-        mWebPageFragment = (WebPageFragment) fm.findFragmentByTag(WEB_PAGE_FRAGMENT_TAG);
-        if (mWebPageFragment == null) {
-            mWebPageFragment = new WebPageFragment();
+        WebPageFragment webPageFragment = (WebPageFragment) fm.findFragmentByTag(WEB_PAGE_FRAGMENT_TAG);
+        if (webPageFragment == null) {
+            webPageFragment = new WebPageFragment();
 
-            fm.beginTransaction().add(R.id.pageContentLayout, mWebPageFragment, WEB_PAGE_FRAGMENT_TAG).commit();
+            fm.beginTransaction().add(R.id.pageContentLayout, webPageFragment, WEB_PAGE_FRAGMENT_TAG).commit();
         }
 
         mButtonObservable = RxView.clicks(mViewsBinding.loadPageButton).

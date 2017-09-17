@@ -5,6 +5,9 @@ import com.kovalik.rtestapp1.R;
 
 public enum HTTPCode {
 
+    // Could add here all HTTP codes, but for
+    // convenience of not doing huge enum
+    // for test project let's narrow the set.
     UNKNOWN(-1),
     BAD_REQUEST(400),
     UNAUTHORIZED(401),

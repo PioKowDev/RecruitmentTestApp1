@@ -1,9 +1,13 @@
 package com.kovalik.rtestapp1.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,7 @@ import com.kovalik.rtestapp1.R;
 import com.kovalik.rtestapp1.activities.WebPageActivity;
 import com.kovalik.rtestapp1.databinding.WebPageFragmentBinding;
 import com.kovalik.rtestapp1.enums.HTTPCode;
+import com.kovalik.rtestapp1.managers.FileManager;
 import com.kovalik.rtestapp1.managers.WebPageSourceProvider;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -20,8 +25,10 @@ public class WebPageFragment extends Fragment implements Response.Listener<Strin
     Response.ProgressListener {
 
     private static final String BUNDLE_SOURCE_TEXT = "BUNDLE_SOURCE_TEXT";
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
     private WebPageFragmentBinding mViewsBinding;
+    private String mCurrentURL;
 
     @Nullable
     @Override
@@ -47,8 +54,9 @@ public class WebPageFragment extends Fragment implements Response.Listener<Strin
     @Override
     public void onPause() {
         WebPageActivity parentActivity = (WebPageActivity)getActivity();
-        parentActivity.getLoadPageButtonObservable().unsubscribeOn(AndroidSchedulers.mainThread());
-
+        if (parentActivity != null) {
+            parentActivity.getLoadPageButtonObservable().unsubscribeOn(AndroidSchedulers.mainThread());
+        }
         super.onPause();
     }
 
@@ -58,16 +66,30 @@ public class WebPageFragment extends Fragment implements Response.Listener<Strin
         super.onSaveInstanceState(outState);
     }
 
-    private void loadPage(String providedUrl) {
+    private void loadPage(final String providedUrl) {
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                REQUEST_WRITE_EXTERNAL_STORAGE);
+        }
         mViewsBinding.progressLoad.setProgress(0);
+        mCurrentURL = providedUrl;
         WebPageSourceProvider.getInstance(getActivity().getApplicationContext()).
-            getPageSource(providedUrl, this, this, this);
+            getPageSource(getActivity().getApplicationContext(), providedUrl,
+                this, this, this);
     }
 
     @Override
     public void onResponse(final String response) {
         mViewsBinding.webPageSource.setText(response);
         mViewsBinding.progressLoad.setProgress(mViewsBinding.progressLoad.getMax());
+        if (FileManager.isExternalStorageWritable()) {
+            String fileName = mCurrentURL.replaceAll(WebPageSourceProvider.HTTPS_PREFIX, "").
+                replaceAll(WebPageSourceProvider.HTTP_PREFIX, "").
+                replaceAll(WebPageSourceProvider.WWW_PREFIX, "");
+            FileManager.saveFile(fileName, response);
+        }
     }
 
     @Override

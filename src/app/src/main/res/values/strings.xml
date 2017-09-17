@@ -10,4 +10,6 @@
     <string name="error_503">Error: Service unavailable</string>
     <string name="error_504">Error: Gateway timeout</string>
     <string name="error_unknown">Error: Unknown Error</string>
+    <string name="error_no_connectivity_no_file">Error: You have no connection and there is no cached source to be displayed.</string>
+    <string name="error_no_connectivity_no_storage">Error: You have no connection and could not access file storage.</string>
 </resources>
