@@ -1,7 +1,6 @@
 package com.kovalik.rtestapp1.activities;
 
 import android.databinding.DataBindingUtil;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
